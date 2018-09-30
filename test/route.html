@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Document</title>
+
+    <style>
+
+        header,
+
+        footer {
+
+            height: 100px;
+
+            background: #ccc;
+
+        }
+
+
+
+        section {
+
+            width: 60%;
+
+            height: 400px;
+
+            background: #eee;
+
+            float: left;
+
+        }
+
+
+
+        sidebar {
+
+            width: 40%;
+
+            height: 400px;
+
+            background: #999;
+
+            float: left;
+
+        }
+
+
+
+        .clear {
+
+            clear: both;
+
+        }
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+    <header>
+
+        头部
+
+    </header>
+
+    <section>
+
+        <ul>
+
+            <li><a href="#/">啥都没有</a></li>
+
+            <li><a href="#/html">html</a></li>
+
+            <li><a href="#/css">css</a></li>
+
+            <li><a href="#/javascript">javascript</a></li>
+
+        </ul>
+
+    </section>
+
+    <sidebar>
+
+        右边
+
+    </sidebar>
+
+    <div class="clear"></div>
+
+    <footer>
+
+        底部
+
+    </footer>
+
+    <script>
+
+        //框架雏形：1.用一个立即表达式把框架包起来，避免代码污染（定义的变量..等重复使用）
+
+            //         2.在立即表达式里定义一个构造函数（这里指var Router）；
+
+            //         3.最后加上语句window.objec = functionName;把函数暴露出来，
+
+            //           附加到window对象上面这样(这里指window.oRou )；
+
+            //         4.在构造函数的原型对象上添加函数（init，reloadPage...）
+
+            //         5.用第3步附在window的构造函数构建一个新对象，//var oRouter2 = new oRou();
+
+            //           这个对象(oRouter2)就可以使用刚刚第4步添加的函数了；
+
+
+
+        (function(){    //立即表达式：(function(){代码内容})();
+
+            var Router = function(){    //构造函数
+
+                /*
+
+                    this.routes['/'] = function(){}    
+
+                    this.routes['/html'] = function(){}
+
+                */ 
+
+                this.routes = {};//用来保存路由
+
+                this.curUrl = ''; //获取当前的hash
+
+            }
+
+            Router.prototype.init = function(){ //监听路由变化 当hash变化时调用reloadPage函数
+
+                //call,apply
+
+                window.addEventListener( 'hashchange', this.reloadPage.bind(this) );
+
+                //第一个this指向window，bind里面的this指向调用这个函数的对象（这里是oRouter2）
+
+            }
+
+            Router.prototype.reloadPage = function(){
+
+                this.curUrl = location.hash.substring(1) || '/';//获取当前hash的值（去掉#）
+
+                this.routes[this.curUrl]();      //运行当前hsah值对应的函数
+
+            }
+
+            Router.prototype.map = function( key, callback ){ //保存路由对应的函数：
+
+                this.routes[key] = callback;  //key表示hash的值（去掉#），callback表示当前hash对应的函数
+
+                // console.log( this.routes );
+
+            } 
+
+            window.oRou = Router;
+
+        })();
+
+ 
+
+ 
+
+        var oRouter2 = new oRou();
+
+        oRouter2.init();
+
+        oRouter2.map( '/', function(){
+
+            var oSidebar = document.querySelector("sidebar");
+
+            oSidebar.innerHTML = '你点，你再点，你点点点';
+
+        });
+
+        oRouter2.map('/html', function(){
+
+            var oSidebar = document.querySelector("sidebar");
+
+            oSidebar.innerHTML = '狂拽 酷炫 吊炸天 的html';
+
+        });
+
+        oRouter2.map('/css', function(){
+
+            var oSidebar = document.querySelector("sidebar");
+
+            oSidebar.innerHTML = '狂 拽 酷 炫 吊 炸 天 的css';
+
+        });
+
+        oRouter2.map('/javascript', function(){
+
+            var oSidebar = document.querySelector("sidebar");
+
+            oSidebar.innerHTML = '狂拽酷炫吊炸天的javascript';
+
+        });
+
+
+
+
+
+    </script>
+
+</body>
+
+
+
+</html>
