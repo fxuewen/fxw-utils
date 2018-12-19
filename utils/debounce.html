@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>加入防抖</title>
+    <style type="text/css"></style>
+    <script type="text/javascript">
+		// 1.防抖
+		// 在事件被触发n秒后再执行回调函数，如果在这n秒内又被触发，则重新计时。
+
+		// 2.应用场景
+		// (1) 用户在输入框中连续输入一串字符后，只会在输入完后去执行最后一次的查询ajax请求，这样可以有效减少请求次数，节约请求资源；
+		// (2) window的resize、scroll事件，不断地调整浏览器的窗口大小、或者滚动时会触发对应事件，防抖让其只触发一次；\
+		
+		// 3.实现
+        window.onload = function () {
+            //模拟ajax请求
+            function ajax(content) {
+                console.log('ajax request ' + content)
+            }
+            function debounce(fun, delay) {
+                return function (args) {
+                    //获取函数的作用域和变量
+                    let that = this
+                    let _args = args
+                    //每次事件被触发，都会清除当前的timeer，然后重写设置超时调用
+                    clearTimeout(fun.id)
+                    fun.id = setTimeout(function () {
+                        fun.call(that, _args)
+                    }, delay)
+                }
+            }
+            let inputDebounce = document.getElementById('debounce')
+            let debounceAjax = debounce(ajax, 500)
+            inputDebounce.addEventListener('keyup', function (e) {
+                debounceAjax(e.target.value)
+            })
+        }
+    </script>
+</head>
