@@ -1,0 +1,29 @@
+1.安装插件Eslint, Prettier - Code formatter, Vetur 
+
+2.vscode中添加以下设置项
+
+{
+    "eslint.autoFixOnSave": true,
+    "eslint.enable": true,
+    "eslint.validate": [ //验证文件类型
+        "javascript",
+        "javascriptreact",
+        "vue",
+        "html",
+        "jsx",
+        {
+            "language": "html",
+            "autoFix": true
+        },
+        {
+            "language": "vue",
+            "autoFix": true
+        }
+    ],
+    "prettier.semi": false, //去掉代码结尾的分号
+    "prettier.singleQuote": true, //使用单引号而不是双引号
+    "prettier.jsxBracketSameLine": true, //将>多行JSX元素放在最后一行的末尾，而不是单独放在下一行
+    "editor.formatOnSave": true, //保存时自动格式化
+}
+
+3.重启vscode
