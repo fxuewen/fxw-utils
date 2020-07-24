@@ -2,14 +2,14 @@
 var EventEmiter = {
   // 通过on接口监听事件eventName
   // 如果事件eventName被触发，则执行callback回调函数
-  on: function(eventName, callback) {
+  on: function (eventName, callback) {
     if (!this.handles) {
       // this.handles={};
       Object.defineProperty(this, 'handles', {
         value: {},
         enumerable: false,
         configurable: true,
-        writable: true
+        writable: true,
       })
     }
 
@@ -18,14 +18,23 @@ var EventEmiter = {
     }
     this.handles[eventName].push(callback)
   },
+  // 注销事件
+  off(eventName, callback) {
+    if (!this.handles || !this.handles[eventName]) {
+      return
+    }
+
+    const index = this.handles[eventName].findIndex((item) => item === callback)
+    index > -1 && this.handles[eventName].splice(index)
+  },
   // 触发事件 eventName
-  emit: function(eventName) {
+  emit: function (eventName) {
     if (this.handles[arguments[0]]) {
       for (var i = 0; i < this.handles[arguments[0]].length; i++) {
         this.handles[arguments[0]][i](arguments[1])
       }
     }
-  }
+  },
 }
 
 export default EventEmiter
