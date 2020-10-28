@@ -20,6 +20,8 @@
             "autoFix": true
         }
     ],
+    "editor.fontSize": 18,
+    "workbench.editor.enablePreview": false,  // 打开多个页签
     "prettier.semi": false, //去掉代码结尾的分号
     "prettier.singleQuote": true, //使用单引号而不是双引号
     "prettier.jsxBracketSameLine": true, //将>多行JSX元素放在最后一行的末尾，而不是单独放在下一行
